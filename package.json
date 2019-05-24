@@ -12,6 +12,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "homepage": "https://alonso-huayta.com",
   "devDependencies": {
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",

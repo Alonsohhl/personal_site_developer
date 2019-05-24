@@ -1,4 +1,4 @@
-require("./main.css");
+// require("./main.css");
 // require("./css/animate.css");
 // // require("./css/bootstrap.css");
 // // require("./css/font-awsome.css");
