@@ -53,6 +53,7 @@
     <link rel="stylesheet" href="css/magnific-popup.css">
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/main.css" type="text/css">
+    <link href="lib/noty.css" rel="stylesheet">
 
     <!-- This styles needs for demo -->
     <link rel="stylesheet" href="preview/lmpixels-demo-panel.css" type="text/css">
@@ -990,8 +991,9 @@
                     </div>
                   </form> -->
 
-                  <form method="POST" action="https://formspree.io/alonso.hl25@gmail.com">
-                    <div class="messages"></div>
+                  <form method="POST" action="http://localhost:3010/sendEmail/" id="my_form">
+
+
                     <div class="controls">
 
                         <div class="form-group">
@@ -1002,24 +1004,24 @@
                         </div>
   
                         <div class="form-group">
-                            <textarea id="form_message" name="message" class="form-control" placeholder="Message for me" rows="4" required="required" data-error="Please, leave me a message."></textarea>
+                            <textarea id="form_message" name="content" class="form-control" placeholder="Message for me" rows="4" required="required" data-error="Please, leave me a message."></textarea>
                             <div class="form-control-border"></div>
                             <i class="form-control-icon fa fa-comment"></i>
                             <div class="help-block with-errors"></div>
                         </div>
 
-<!-- 
-                    <input type="email" name="email" placeholder="Your email">
-                    <textarea name="message" placeholder="Test Message"></textarea> -->
 
-                    <input type="text" name="_gotcha" style="display:none">
-                    <input type="hidden" name="_subject" value="Message via http://domain.com">
-
-                    <button type="submit">Send Text</button>
-
-
-                  </div>
+                    <!-- <p><input type="text" name="email" value="text default">
+                    <p><input type="text" name="content" value="123"> -->
+                 
+                      <p>
+                        <div class="block-button">
+                          <button type="submit">Submit </button>
+                          <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                        </div>
                   </form>
+                  <div id="server-results"><!-- For server results --></div>
+
 
                 </div>
               </div>
@@ -1047,9 +1049,78 @@
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/jquery.hoverdir.js"></script>
     <script src="js/main.js"></script>
+    
+    <script src="lib/noty.js" type="text/javascript"></script>
+    <script>
+      // $("#my_form").submit(function (event) {
+      //     event.preventDefault(); //prevent default action 
+
+      //       $.ajax({
+      //       type: "POST",
+      //       url: "http://localhost:3010/sendEmail",
+      //       data: $(this).serializeArray(),
+      //       contentType: "application/json",
+      //       success: function (form) {
+      //         // 
+      //         console.log("asd");
+      //       }
+      //     });
+
+      //     // var post_url = $(this).attr("action"); //get form action url
+      //     // var form_data = $(this).serialize(); //Encode form elements for submission
+
+      //     // $.post(post_url, form_data, function (response) {
+      //     //   $("#server-results").html(response);
+      //     // });
+      //   });
+      var $form = $('#my_form')
+
+$form.on('submit', submitHandler)
+
+function submitHandler (e) {
+  e.preventDefault()
+  $('.lds-roller').show();
+  $.ajax({
+    url: 'http://157.230.149.142/sendEmail',
+    // url: 'http://localhost:3007/sendEmail',
+    type:'POST',
+    // dataType : 'json', // data type,
+    data: $form.serialize(),
+      success : function(result) {
+                      $('.lds-roller').hide(); 
+                      new Noty({
+                      type: 'info',
+                      theme: 'sunset',
+                      text: 'Message sent'
+                      
+                      
+                  }).show();
+                      // you can see the result from the console
+                      // tab of the developer tools
+                      console.log(result);
+                  },
+      error: function(xhr, resp, text) {
+        new Noty({
+          type: 'alert',
+          theme: 'sunset',
+          text: 'Mail Failed'
+          
+          
+      }).show();
+      $('.lds-roller').hide();  
+                      console.log("xd");
+                      console.log(xhr, resp, text);
+                  }
+  })
+  
+  // .done(response => {
+  //   console.log(response)
+  // })
+}
+    </script>
 
     <!-- Demo Color changer Script -->
-    <script src="preview/lmpixels-demo-panel.js"></script>
+    <!-- <script src="preview/lmpixels-demo-panel.js"></script> -->
     <!-- /Demo Color changer Script -->
   </body>
 
